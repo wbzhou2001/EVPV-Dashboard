@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AES PV Dashboard</title>
+  <style>
+    .separate-col {
+      display: flex;
+      /* background-color: lightgoldenrodyellow; */
+      background-color: none;
+      gap: 20px;
+      border-radius: 30px;
+      /* padding: 20px; */
+      /* margin-bottom: 30px; */
+    }
+    .background {
+      background-color: lightgoldenrodyellow;
+      border-radius: 30px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .slider-div {
+            border-radius: 30px;
+            background-color: lightgray;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+    }
+    .invisible-div {
+      background-color: none;
+      text-align: center;
+      margin-bottom: 15px;
+      margin-top: 15px;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      /* text-align: center; */
+      margin-top: 50px;
+      margin-left: 100px;
+      margin-right: 100px;
+    }
+    #slider-container {
+      margin: 30px;
+    }
+    img {
+      max-width: 80%;
+      height: auto;
+      margin-top: 0px;
+      /* margin-bottom: 20px; */
+    }
+  </style>
+</head>
+
+<body>
+  <h1>AES Indiana PV Forecaster</h1>
+  
+  <div class="invisible-div">
+    <p>Wenbin Zhou and Shixiang Zhu</p>
+    <p>Carnegie Mellon University</p>
+    <p>Email: wenbinz2@andrew.cmu.edu; shixiangzhu@cmu.edu</p>
+  </div>
+
+  <div class="background">
+  <div class="invisible-div">
+    <button id="reset">Reset to initial configuration</button>
+  </div>
+  </div>
+
+  <!-- PV Residential -->
+  <div class="background">
+  <h2> Residential</h2>
+  <div class="separate-col">
+  <div class="slider-div">
+    <input type="range" id="slider-1-res" min="10" max="90" step="10" value="90">
+    <p><b>Confidence level</b>: <span id="slider-1-value-res">90</span>%</p>
+    <p><b>Meaning</b>: Model's statistical confidence in the low and high forecast.</p>
+  </div>
+  
+  <div class="slider-div">
+    <input type="range" id="slider-2-res" min="30000" max="50000" step="1000" value="43000">
+    <p><b>Penetration rate</b>: <span id="slider-2-value-res">7.56</span>%</p>
+    <p><b>Meaning</b>: Theoretical limit of penetration rate (number of adoptions per capita within the network).</p>
+  </div>
+
+  <div class="slider-div">
+    <input type="range" id="slider-3-res" min="30" max="49" step="1" value="42">
+    <p><b>Tipping point</b>: <span id="slider-3-value-res">2032-01</span></p>
+    <p><b>Meaning</b>: The date when the <i>decaying effect</i> kicks in.</p>
+  </div>
+  </div>
+
+  <div class="separate-col">
+  <div class="invisible-div">
+    <h3>Residential Installation Count</h3>
+    <img id="img-1" src="cache2/pv_residential_units/alpha=0.9_SAT=43000_TP=42.png" alt="None">
+    <div class = "invisible-div">
+      <button id="export1">Download data</button>
+  </div>
+  </div>
+
+  <div class="invisible-div">
+    <h3>Residential Solar Generation</h3>
+    <img id="img-3" src="cache2/pv_residential_generation/alpha=0.9_SAT=43000_TP=42.png" alt="None">
+    <div class = "invisible-div">
+      <button id="export3">Download data</button>
+    </div>
+  </div>
+  </div>
+  </div>
+
+
+  <!-- PV Commercial -->
+  <div class="background">
+  <h2>Commercial</h2>
+  <div class="separate-col">
+    <div class="slider-div">
+      <input type="range" id="slider-1-com" min="10" max="90" step="10" value="10">
+      <p><b>Confidence level</b>: <span id="slider-1-value-com">10</span>%</p>
+      <p><b>Meaning</b>: Model's statistical confidence in the low and high forecast.</p>
+    </div>
+    
+    <div class="slider-div">
+      <input type="range" id="slider-2-com" min="15000" max="25000" step="1000" value="22000">
+      <p><b>Penetration rate</b>: <span id="slider-2-value-com">3.87</span>%</p>
+      <p><b>Meaning</b>: Theoretical limit of penetration rate (number of adoptions per capita within the network).</p>
+    </div>
+  
+    <div class="slider-div">
+      <input type="range" id="slider-3-com" min="30" max="49" step="1" value="40">
+      <p><b>Tipping point</b>: <span id="slider-3-value-com">2031-01</span></p>
+      <p><b>Meaning</b>: The date when the <i>decaying effect</i> kicks in.</p>
+    </div>
+    </div>
+
+  <div class="separate-col">
+  <div class="invisible-div">
+    <h3>Commercial Installation Count</h3>
+    <img id="img-2" src="cache2/pv_commercial_units/alpha=0.1_SAT=22000_TP=40.png" alt="None">
+    <div class = "invisible-div">
+    <button id="export2">Download data</button>
+  </div>
+  </div>
+
+  <div class="invisible-div">
+    <h3>Commercial Solar Generation</h3>
+    <img id="img-4" src="cache2/pv_commercial_generation/alpha=0.1_SAT=22000_TP=40.png" alt="None">
+    <div class = "invisible-div">
+    <button id="export4">Download data</button>
+  </div>
+  </div>
+  </div>
+  </div>
+
+  <div class="background">
+  <h2> Supplementary Information</h2>
+
+  <p>
+    For PV forecast, we adopt a bottom-up forecast approach using the PV installation record data,
+    therefore there are two sets of hyperparameters, each corresponding to the residential and commercial sector. 
+    Additional information include load, outage, demographic factors (e.g., education, income) are used to assist model fitting. 
+    Same assumptions as the IRP 2022 report was used for computing the generation forecast. 
+    The details of our methodology can be found in the preprint [1].
+  </p>
+  <p>
+    The initial values of the hyperparameters are fitted in a data-driven manner.
+    We include some additional supporting arguments to help with model adjustment: 
+  </p>
+
+  <p>
+    <b>Confidence level</b>:
+    Due to large residential PV installation demand, larger uncertainty is equipped with the forecast, so it is recommended that a relative large confidence level to be chosen (e.g. 90%).
+    On the other hand, only very few installations have been historically executed for commercial installation, so we can reasonably adopt lower model confidence for more informative low and upper bounds (e.g. 10%).
+  </p>
+
+  <p>
+  <b>Tipping point</b>:
+  Shining Cities' most recent solar energy survey (2022) [3] show that Indianapolis ranks 12th in the nation for total solar capcity, making it a solar superstar city.
+  In the meatime, SEIA's most recent solar market insight report (2024) [2] forecasted that both residential and commercial PV capacity exhibit increasing growth (2024-2029) for the US market.
+  These evidence suggest that Indianapolis is positioned at a solar market with strong adoption surge, and the tipping point will likely not come before 2029.
+  Looking at policy factors, recently the federal investiment tax credit (ITC) has been amended with the Clean Electricity Investment Tax Credit (CEITC), which will remain effective until 2032 [3].
+  Some regional level incentives, such as the Indiana Senate Enrolled Act 309 remains effective for generators installed until 2047 [3].
+  Therefore, we reasonably hypothesize that the tipping point will not arrive before 2032.
+  </p>
+
+  <p>
+  <b>Penetration rate</b>:
+    We hypothesize that the theoretical penetration will reach no lower than the current highest tier PV penetration level.
+    Our model result (7% for residential and 4% for commercial) sum up to more than 1.5 times the current PV penetration rate of the state of California.
+    It is notable that our model shows that the saturation effect for commercial sector is not salient before 2050,
+    suggesting a long-lasting potential for customers in the commercial sector.    
+  </p>
+
+
+  <h4>References</h4>
+  [1] https://arxiv.org/pdf/2411.12193
+  <br>
+  [2] https://seia.org/research-resources/solar-market-insight-report-q3-2024/
+  <br>
+  [3] https://frontiergroup.org/resources/shining-cities-2022/
+  <br>
+  [4] https://solarpower.guide/solar-energy-insights/states-most-solar-installations
+  <!-- <br>
+  [] https://seia.org/wp-content/uploads/2024/08/Indiana-1.pdf
+  <br>
+  [] https://www.purdue.edu/discoverypark/sufg/docs/publications/2024%20Indiana%20Renewable%20Energy%20Resources%20Study.pdf
+  <br> -->
+  </div>
+
+
+  <script>
+    const slider1Res = document.getElementById("slider-1-res");
+    const slider2Res = document.getElementById("slider-2-res");
+    const slider3Res = document.getElementById("slider-3-res");
+    const slider1Com = document.getElementById("slider-1-com");
+    const slider2Com = document.getElementById("slider-2-com");
+    const slider3Com = document.getElementById("slider-3-com");
+    const slider1ValueRes = document.getElementById("slider-1-value-res");
+    const slider2ValueRes = document.getElementById("slider-2-value-res");
+    const slider3ValueRes = document.getElementById("slider-3-value-res");
+    const slider1ValueCom = document.getElementById("slider-1-value-com");
+    const slider2ValueCom = document.getElementById("slider-2-value-com");
+    const slider3ValueCom = document.getElementById("slider-3-value-com");
+    const Img1 = document.getElementById("img-1");
+    const Img2 = document.getElementById("img-2");
+    const Img3 = document.getElementById("img-3");
+    const Img4 = document.getElementById("img-4");
+    const resetButton = document.getElementById("reset");
+    const exportButton1 = document.getElementById("export1");
+    const exportButton2 = document.getElementById("export2");
+    const exportButton3 = document.getElementById("export3");
+    const exportButton4 = document.getElementById("export4");
+
+    const ToDate = (integer, baseYear = 2011, baseMonth = 7, interval = 6) => {
+      const totalMonths = baseMonth - 1 + (integer - 1) * interval; // Months since base year-month
+      const year = baseYear + Math.floor(totalMonths / 12); // Calculate the year
+      const month = (totalMonths % 12) + 1; // Calculate the month (1-based)
+      return `${year}-${String(month).padStart(2, '0')}`; // Format as YYYY-MM
+    };
+
+    // Function to update the display based on both sliders
+    const updateDisplay = () => {
+
+      const value1Res = parseFloat(slider1Res.value * 0.01).toFixed(1);
+      const value2Res = slider2Res.value;
+      const value3Res = slider3Res.value;
+
+      const value1Com = parseFloat(slider1Com.value * 0.01).toFixed(1);
+      const value2Com = slider2Com.value;
+      const value3Com = slider3Com.value;
+
+      // Update the displayed values
+      slider1ValueRes.textContent = value1Res * 100;
+      slider2ValueRes.textContent = parseFloat(value2Res / 568894 * 100).toFixed(2);
+      slider3ValueRes.textContent = ToDate(value3Res);
+
+      // Dynamically update the image source based on both slider values
+      Img1.src = `cache2/pv_residential_units/alpha=${value1Res}_SAT=${value2Res}_TP=${value3Res}.png`;
+      Img1.alt = `cache2/pv_residential_units/alpha=${value1Res}_SAT=${value2Res}_TP=${value3Res}.png`;
+
+      // Update the displayed values
+      slider1ValueCom.textContent = value1Com * 100;
+      slider2ValueCom.textContent = parseFloat(value2Com / 568894 * 100).toFixed(2);
+      slider3ValueCom.textContent = ToDate(value3Com);
+
+      // Dynamically update the image source based on both slider values
+      Img2.src = `cache2/pv_commercial_units/alpha=${value1Com}_SAT=${value2Com}_TP=${value3Com}.png`;
+      Img2.alt = `cache2/pv_commercial_units/alpha=${value1Com}_SAT=${value2Com}_TP=${value3Com}.png`;
+
+      // Dynamically update the image source based on both slider values
+      Img3.src = `cache2/pv_residential_generation/alpha=${value1Res}_SAT=${value2Res}_TP=${value3Res}.png`;
+      Img3.alt = `cache2/pv_residential_generation/alpha=${value1Res}_SAT=${value2Res}_TP=${value3Res}.png`;
+
+      // Dynamically update the image source based on both slider values
+      Img4.src = `cache2/pv_commercial_generation/alpha=${value1Com}_SAT=${value2Com}_TP=${value3Com}.png`;
+      Img4.alt = `cache2/pv_commercial_generation/alpha=${value1Com}_SAT=${value2Com}_TP=${value3Com}.png`;
+    };
+
+    const Reset = () => {
+      slider1Res.value = 90;
+      slider2Res.value = 43000;
+      slider3Res.value = 42;
+      slider1ValueRes.textContent = 90;
+      slider2ValueRes.textContent = parseFloat(43000 / 568894 * 100).toFixed(2);
+      slider3ValueRes.textContent = 42;
+      slider1Com.value = 10;
+      slider2Com.value = 22000;
+      slider3Com.value = 40;
+      slider1ValueCom.textContent = 10;
+      slider2ValueCom.textContent = parseFloat(22000 / 568894 * 100).toFixed(2);
+      slider3ValueCom.textContent = 40;
+      updateDisplay();
+    };
+
+    const Export1 = () => {
+        const value1Res = parseFloat(slider1Res.value * 0.01).toFixed(1);
+        const value2Res = slider2Res.value;
+        const value3Res = slider3Res.value;
+        // File path
+        const file = `cache2/pv_residential_units/alpha=${value1Res}_SAT=${value2Res}_TP=${value3Res}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const Export2 = () => {
+        const value1Com = parseFloat(slider1Com.value * 0.01).toFixed(1);
+        const value2Com = slider2Com.value;
+        const value3Com = slider3Com.value;
+        // File path
+        const file = `cache2/pv_commercial_units/alpha=${value1Com}_SAT=${value2Com}_TP=${value3Com}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const Export3 = () => {
+        const value1Res = parseFloat(slider1Res.value * 0.01).toFixed(1);
+        const value2Res = slider2Res.value;
+        const value3Res = slider3Res.value;
+        // File path
+        const file = `cache2/pv_residential_generation/alpha=${value1Res}_SAT=${value2Res}_TP=${value3Res}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const Export4 = () => {
+        const value1Com = parseFloat(slider1Com.value * 0.01).toFixed(1);
+        const value2Com = slider2Com.value;
+        const value3Com = slider3Com.value;
+        // File path
+        const file = `cache2/pv_commercial_generation/alpha=${value1Com}_SAT=${value2Com}_TP=${value3Com}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    slider1Res.addEventListener("input", updateDisplay);
+    slider2Res.addEventListener("input", updateDisplay);
+    slider3Res.addEventListener("input", updateDisplay);
+    slider1Com.addEventListener("input", updateDisplay);
+    slider2Com.addEventListener("input", updateDisplay);
+    slider3Com.addEventListener("input", updateDisplay);
+    resetButton.addEventListener("click", Reset);
+    exportButton1.addEventListener("click", Export1);
+    exportButton2.addEventListener("click", Export2);
+    exportButton3.addEventListener("click", Export3);
+    exportButton4.addEventListener("click", Export4);
+  </script>
+
+</body>
+</html>
