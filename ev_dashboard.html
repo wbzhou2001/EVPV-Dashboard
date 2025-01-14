@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AES EV Dashboard</title>
+  <style>
+    .separate-col {
+      display: flex;
+      /* background-color: lightgoldenrodyellow; */
+      background-color: none;
+      gap: 20px;
+      border-radius: 30px;
+      /* padding: 20px; */
+      /* margin-bottom: 30px; */
+    }
+    .background {
+      background-color: lightgoldenrodyellow;
+      border-radius: 30px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .slider-div {
+            border-radius: 30px;
+            background-color: lightgray;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+    }
+    .invisible-div {
+      background-color: none;
+      text-align: center;
+      margin-bottom: 15px;
+      margin-top: 15px;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      /* text-align: center; */
+      margin-top: 50px;
+      margin-left: 100px;
+      margin-right: 100px;
+    }
+    #slider-container {
+      margin: 30px;
+    }
+    img {
+      max-width: 80%;
+      height: auto;
+      margin-top: 0px;
+      /* margin-bottom: 20px; */
+    }
+  </style>
+</head>
+
+<body>
+  <h1>AES Indiana EV Forecaster</h1>
+  
+  <div class="invisible-div">
+  <p>Wenbin Zhou and Shixiang Zhu</p>
+  <p>Carnegie Mellon University</p>
+  <p>Email: wenbinz2@andrew.cmu.edu; shixiangzhu@cmu.edu</p>
+  </div>
+
+  <div class="background">
+  <div class="invisible-div">
+    <button id="reset">Reset to initial configuration</button>
+  </div>
+  </div>
+
+  <!-- PV Residential -->
+  <div class="background">
+  <h2> Global Hyperparameter</h2>
+    <div class="separate-col">
+      <div class="slider-div">
+        <input type="range" id="slider-1" min="10" max="90" step="10" value="70">
+        <p><b>Confidence level</b>: <span id="slider-1-value">70</span>%</p>
+        <p><b>Meaning</b>: Model's statistical confidence in the low and high forecast.</p>
+      </div>
+      
+      <div class="slider-div">
+        <input type="range" id="slider-2" min="300000" max="400000" step="10000" value="320000">
+        <p><b>Penetration rate</b>: <span id="slider-2-value">56.25</span>%</p>
+        <p><b>Meaning</b>: Theoretical limit of penetration rate (number of adoptions per capita within the network).</p>
+      </div>
+
+      <div class="slider-div">
+        <input type="range" id="slider-3" min="30" max="50" step="1" value="36">
+        <p><b>Tipping point</b>: <span id="slider-3-value">2029-01</span></p>
+        <!-- <p><b>Meaning</b>: The date when fastest growth rate.</p> -->
+        <p><b>Meaning</b>: The date when the <i>decaying effect</i> kicks in.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="background">
+    <h2>Total</h2>
+      <div class="separate-col">
+        <div class="invisible-div">
+          <h3>Number of Vehicles</h3>
+          <img id="img-1" src="cache2/ev_total_units/alpha=0.7_SAT=320000_TP=39.png" alt="None">
+          <div class = "invisible-div">
+            <button id="export1">Download data</button>
+          </div>
+        </div>
+  
+        <div class="invisible-div">
+          <h3>Energy Sales</h3>
+          <img id="img-2" src="cache2/ev_total_load/alpha=0.7_SAT=320000_TP=39.png" alt="None">
+            <div class = "invisible-div">
+              <button id="export2">Download data</button>
+            </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="background">
+  <h2>Residential</h2>
+    <div class="separate-col">
+      <div class="invisible-div">
+        <h3>Number of Vehicles</h3>
+        <img id="img-3" src="cache2/ev_residential_units/alpha=0.7_SAT=320000_TP=39.png" alt="None">
+        <div class = "invisible-div">
+          <button id="export3">Download data</button>
+        </div>
+      </div>
+
+      <div class="invisible-div">
+        <h3>Energy Sales</h3>
+        <img id="img-4" src="cache2/ev_residential_load/alpha=0.7_SAT=320000_TP=39.png" alt="None">
+          <div class = "invisible-div">
+            <button id="export4">Download data</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="background">
+    <h2>Commercial</h2>
+      <div class="separate-col">
+        <div class="invisible-div">
+          <h3>Number of Vehicles</h3>
+          <img id="img-5" src="cache2/ev_commercial_units/alpha=0.7_SAT=320000_TP=39.png" alt="None">
+          <div class = "invisible-div">
+            <button id="export5">Download data</button>
+          </div>
+        </div>
+  
+        <div class="invisible-div">
+          <h3>Energy Sales</h3>
+          <img id="img-6" src="cache2/ev_commercial_load/alpha=0.7_SAT=320000_TP=39.png" alt="None">
+            <div class = "invisible-div">
+              <button id="export6">Download data</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="background">
+  <h2> Supplementary Information</h2>
+
+  <p>
+    For EV forecast, we adopt a top-down forecast approach using the BMV EV registration data, therefore there is only one set of hyperparameters for all six forecasts. 
+    PV data was used to impute granular-level timestamps information of EV registration.
+    Additional information include Indiana Vehicle Fuel Dashboard (Marion County), load, outage, demographic factors (e.g., education, income) are used to assist model fitting. 
+    Same assumptions as the IRP 2022 report was used for computing the load sales forecast. 
+    The details of our methodology can be found in the preprint [1].
+  </p>
+  <p>
+    The initial values of the hyperparameters are fitted in a data-driven manner.
+    We include some additional supporting arguments to help with model adjustment: 
+  </p>
+
+  <p>
+  <b>Confidence level</b>:
+    Given that the EV data was reconciled with other data sources to improve granularity, which in the downside,
+    might induce noise and bias, we recommend using relatively high confidence level (e.g. 70%).    
+  </p>
+
+  <p>
+  <b>Tipping point</b>:
+  Multiple concrete analysis sources, such as Bloomberg [2][3][6],
+  have pointed out that in more than 31 countries, EV growth has reached the "tipping point" (for mass adoption) of EV adoption mark, a.k.a. the "5% milestone".
+  Gloablly, experts suggest that the EV tipping point has already been crossed by 2021 [3][6]. 
+  For the US, many experts claim that it has already been crossed by the end of 2021 [3][7],
+  while some claim that the tipping point has not yet arrived, and is expected to arrive within the next 10 years [4].
+  For Indianapolis, a previous study conducted by Camus Energy in partnership with AES Indiana suggested that the tipping point for Indianapolis region is expected to arrive by early 2029 [5].
+  We set the tipping point to be at the same time as the time suggested by Camus Energy.
+  </p>
+
+  <p>
+  <b>Penetration rate</b>:
+    Multiple studies have suggested that EV penetration rate saturates at a theoretical level of 50%.
+    Survey conducted in [8] suggest that 54% of skeptics (ICE vehicle drivers) will consider buying EV in the next 3-5 years. 
+    A world-wide survey [4] suggested that around 57% people believe that they will own an EV in the next ten years.
+    Another survery [9] suggest that 38% of Americans will seriously consider buying an EV, and another 40% will considering buying an EV.
+  </p>
+
+
+  <h4>References</h4>
+  [1] https://arxiv.org/pdf/2411.12193
+  <br>
+  [2] https://www.bloomberg.com/news/articles/2024-03-28/electric-cars-pass-adoption-tipping-point-in-31-countries?embedded-checkout=true
+  <br>
+  [3] https://cleantechnica.com/2024/03/28/the-ev-revolution-has-passed-a-tipping-point/
+  <br>
+  [4] https://www.computerweekly.com/news/366615502/Electric-vehicle-tipping-point-for-US-drivers-expected-in-next-10-years
+  <br>
+  [5] https://www.aes.com/ev-tipping-point
+  <br>
+  [6] https://electrifynews.com/news/auto/31-countries-passed-the-5-ev-tipping-point-to-mass-adoption-in-q4/
+  <br>
+  [7] https://www.ttnews.com/articles/electric-vehicle-sales-record
+  <br>
+  [8] https://www.coxautoinc.com/news/cox-automotive-2024-path-to-ev-adoption-study-suggests-electric-vehicle-consideration-will-surge-in-second-half-of-decade/
+  <br>
+  [9] https://advocacy.consumerreports.org/wp-content/uploads/2024/02/CR_2023EV-Survey_Facthseet_Final.pdf
+  <!-- <br>
+  [] https://seia.org/wp-content/uploads/2024/08/Indiana-1.pdf
+  <br>
+  [] https://www.purdue.edu/discoverypark/sufg/docs/publications/2024%20Indiana%20Renewable%20Energy%20Resources%20Study.pdf
+  <br> -->
+
+  </div>
+
+
+  <script>
+    const slider1 = document.getElementById("slider-1");
+    const slider2 = document.getElementById("slider-2");
+    const slider3 = document.getElementById("slider-3");
+    const slider1Value = document.getElementById("slider-1-value");
+    const slider2Value = document.getElementById("slider-2-value");
+    const slider3Value = document.getElementById("slider-3-value");
+    const Img1 = document.getElementById("img-1");
+    const Img2 = document.getElementById("img-2");
+    const Img3 = document.getElementById("img-3");
+    const Img4 = document.getElementById("img-4");
+    const Img5 = document.getElementById("img-5");
+    const Img6 = document.getElementById("img-6");
+    const resetButton = document.getElementById("reset");
+    const exportButton1 = document.getElementById("export1");
+    const exportButton2 = document.getElementById("export2");
+    const exportButton3 = document.getElementById("export3");
+    const exportButton4 = document.getElementById("export4");
+    const exportButton5 = document.getElementById("export5");
+    const exportButton6 = document.getElementById("export6");
+
+    const ToDate = (integer, baseYear = 2011, baseMonth = 7, interval = 6) => {
+      const totalMonths = baseMonth - 1 + (integer - 1) * interval; // Months since base year-month
+      const year = baseYear + Math.floor(totalMonths / 12); // Calculate the year
+      const month = (totalMonths % 12) + 1; // Calculate the month (1-based)
+      return `${year}-${String(month).padStart(2, '0')}`; // Format as YYYY-MM
+    };
+
+    // Function to update the display based on both sliders
+    const updateDisplay = () => {
+
+      const value1 = parseFloat(slider1.value * 0.01).toFixed(1);
+      const value2 = slider2.value;
+      const value3 = slider3.value;
+
+      // Update the displayed values
+      slider1Value.textContent = value1 * 100;
+      slider2Value.textContent = parseFloat(value2 / 568894 * 100).toFixed(2);
+      slider3Value.textContent = ToDate(value3);
+
+      // Dynamically update the image source based on both slider values
+      Img1.src = `cache2/ev_total_units/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+      Img1.alt = `cache2/ev_total_units/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+      Img2.src = `cache2/ev_total_load/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+      Img2.alt = `cache2/ev_total_load/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+
+      Img3.src = `cache2/ev_residential_units/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+      Img3.alt = `cache2/ev_residential_units/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+      Img4.src = `cache2/ev_residential_load/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+      Img4.alt = `cache2/ev_residential_load/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+
+      Img5.src = `cache2/ev_commercial_units/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+      Img5.alt = `cache2/ev_commercial_units/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+      Img6.src = `cache2/ev_commercial_load/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+      Img6.alt = `cache2/ev_commercial_load/alpha=${value1}_SAT=${value2}_TP=${value3}.png`;
+    };
+
+    const Reset = () => {
+      slider1.value = 70;
+      slider2.value = 320000;
+      slider3.value = 36;
+      slider1Value.textContent = 70;
+      slider2Value.textContent = parseFloat(320000 / 568894 * 100).toFixed(2);
+      slider3Value.textContent = 36;
+      updateDisplay();
+    };
+
+    const Export1 = () => {
+        const value1 = parseFloat(slider1.value * 0.01).toFixed(1);
+        const value2 = slider2.value;
+        const value3 = slider3.value;
+        // File path
+        const file = `cache2/ev_total_units/alpha=${value1}_SAT=${value2}_TP=${value3}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const Export2 = () => {
+        const value1 = parseFloat(slider1.value * 0.01).toFixed(1);
+        const value2 = slider2.value;
+        const value3 = slider3.value;
+        // File path
+        const file = `cache2/ev_total_load/alpha=${value1}_SAT=${value2}_TP=${value3}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const Export3 = () => {
+        const value1 = parseFloat(slider1.value * 0.01).toFixed(1);
+        const value2 = slider2.value;
+        const value3 = slider3.value;
+        // File path
+        const file = `cache2/ev_residential_units/alpha=${value1}_SAT=${value2}_TP=${value3}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const Export4 = () => {
+        const value1 = parseFloat(slider1.value * 0.01).toFixed(1);
+        const value2 = slider2.value;
+        const value3 = slider3.value;
+        // File path
+        const file = `cache2/ev_residential_load/alpha=${value1}_SAT=${value2}_TP=${value3}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const Export5 = () => {
+        const value1 = parseFloat(slider1.value * 0.01).toFixed(1);
+        const value2 = slider2.value;
+        const value3 = slider3.value;
+        // File path
+        const file = `cache2/ev_commercial_units/alpha=${value1}_SAT=${value2}_TP=${value3}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const Export6 = () => {
+        const value1 = parseFloat(slider1.value * 0.01).toFixed(1);
+        const value2 = slider2.value;
+        const value3 = slider3.value;
+        // File path
+        const file = `cache2/ev_commercial_load/alpha=${value1}_SAT=${value2}_TP=${value3}.csv`;
+        // Create and click a hidden anchor tag
+        const link = document.createElement('a');
+        link.href = file;
+        link.download = file.split('/').pop(); // Use the filename from the path
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    slider1.addEventListener("input", updateDisplay);
+    slider2.addEventListener("input", updateDisplay);
+    slider3.addEventListener("input", updateDisplay);
+    resetButton.addEventListener("click", Reset);
+    exportButton1.addEventListener("click", Export1);
+    exportButton2.addEventListener("click", Export2);
+    exportButton3.addEventListener("click", Export3);
+    exportButton4.addEventListener("click", Export4);
+    exportButton5.addEventListener("click", Export5);
+    exportButton6.addEventListener("click", Export6);
+  </script>
+
+</body>
+</html>
